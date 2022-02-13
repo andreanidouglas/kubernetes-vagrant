@@ -37,8 +37,9 @@ kubectl create -f /vagrant/k8s-manifests/colico/custom-resources.yaml
 
 Configure kubernetes worker nodes:
 
-Connect to all three nodes: example `vagrant ssh node1`
+Connect to all three nodes: (example `vagrant ssh node1`) and run the command from the master.
 
+**The command below is just an example. Use the command from the master output.**
 ```bash
 sudo kubeadm join 192.168.121.56:6443 --token y6i3sk.g1cfocfndxr882bb ## this command is an example, use the output of the master node 
 ```
