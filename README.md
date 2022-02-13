@@ -3,6 +3,8 @@
 
 ## Setup virtual machines
 
+Before starting, make sure to set the values on the Vagrantfile to your environment.
+
 Start the vagrant machines:
 
 ```bash
@@ -95,6 +97,7 @@ Add a DNS A type record to your system pointing to the ingress controller IP add
 
 Example using /etc/hosts:
 ```config
+# /etc/hosts
 10.0.0.30   grafana.k8s.test
 ```
 
