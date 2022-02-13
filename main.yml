@@ -1,0 +1,73 @@
+---
+- hosts: kube-cluster
+  become: true
+  user: vagrant
+
+
+  handlers:
+    - name: Restart docker
+      service: 
+        name: docker 
+        state: restarted
+  
+  
+  tasks:
+
+  - name: Install all dependencies
+    apt:
+      name: "{{ item }}"
+      state: present
+      update_cache: yes
+    loop:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg-agent
+      - software-properties-common
+      - lsb-release
+  
+  - name: Add GPG key for docker.com
+    apt_key:
+      url: https://download.docker.com/linux/debian/gpg
+      state: present
+  
+  - name: Add apt repository
+    apt_repository:
+      repo: deb https://download.docker.com/linux/debian bullseye stable
+
+  - name: Install docker and dependencies
+    apt:
+      name: "{{ item }}"
+      state: latest
+      update_cache: yes
+    loop:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+
+  - name: Ensure docker service is active
+    service:
+      name: docker
+      state: started
+      enabled: yes
+
+  - name: Add GPG key for google.com/apt
+    apt_key:
+      url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+      state: present
+
+  - name: Add apt repository for Kubernetes
+    apt_repository:
+      repo: deb https://apt.kubernetes.io/ kubernetes-xenial main
+      state: present
+      filename: kubernetes.list
+    
+  - name: Install kubernetes binaries
+    apt:
+      name: "{{ item }}"
+      state: present
+      update_cache: yes
+    loop:
+      - kubelet
+      - kubeadm
+      - kubectl
