@@ -1,6 +1,17 @@
+# Default box image. 
 BOX_IMAGE = "debian/bullseye64"
+
+# Number of nodes besides master to deploy
+# make sure your computer support this number of nodes (default: 3)
 NODE_COUNT = 3
 
+# Set the amount of memory in MB for all the machines 
+# make sure your computer support allocating the necessary memory (default: 4096 or 4GB)
+MEMORY = 2048
+
+# Set the number of cpu cores fro all machines,
+# make sure your computer support this number of cpu cores (default: 4)
+CPUS = 2
 
 Vagrant.configure("2") do |config|
 
@@ -12,8 +23,8 @@ Vagrant.configure("2") do |config|
       libvirt.host = "vm1-qemu"
       libvirt.driver = "kvm"
       libvirt.uri = 'qemu+unix:///system'
-      libvirt.memory = 4096
-      libvirt.cpus = 4
+      libvirt.memory = MEMORY
+      libvirt.cpus = CPUS
     end
   end
 
@@ -26,8 +37,8 @@ Vagrant.configure("2") do |config|
         libvirt.host = "vm#{1 + i}-qemu"
         libvirt.driver = "kvm"
         libvirt.uri = 'qemu+unix:///system'
-        libvirt.memory = 4096
-        libvirt.cpus = 4
+        libvirt.memory = MEMORY
+        libvirt.cpus = CPUS
       end
     end
   end
@@ -36,3 +47,5 @@ Vagrant.configure("2") do |config|
 
   config.ssh.insert_key = false
 end
+
+# vi: set ft=ruby :
