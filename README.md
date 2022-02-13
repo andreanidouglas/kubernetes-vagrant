@@ -23,9 +23,12 @@ Connect to master node: example `vagrant ssh master`
 
 ```bash
 sudo kubeadm init --pod-network-cidr=172.16.0.0/16 ## copy the output of this command to setup the nodes later
+
 mkdir ~/.kube
-cp /etc/kubernetes/admin ~/.kube/config
-cp /etc/kubernetes/admin /vagrant
+sudo cp /etc/kubernetes/admin ~/.kube/config
+sudo cp /etc/kubernetes/admin /vagrant
+sudo chown 1000:1000 ~/.kube/config
+
 kubectl create -f https://projectcalico.docs.tigera.io/manifests/tigera-operator.yaml
 kubectl create -f /vagrant/k8s-manifests/colico/custom-resources.yaml
 ```
